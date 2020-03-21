@@ -5,8 +5,9 @@ import messaging from '@react-native-firebase/messaging';
 import Geolocation from 'react-native-geolocation-service';
 import LoginView from './views/LoginView';
 import {View, Text, PermissionsAndroid} from 'react-native';
+import {PLACES_API_KEY} from 'react-native-dotenv';
 
-const API_KEY = '';
+const API_KEY = PLACES_API_KEY;
 
 const App: () => React$Node = () => {
   const [initializing, setInitializing] = useState(true);
