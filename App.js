@@ -1,14 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
+import firestore from '@react-native-firebase/firestore';
 import Geolocation from 'react-native-geolocation-service';
 import LoginView from './views/LoginView';
-import {View, Text, PermissionsAndroid} from 'react-native';
+import {Button, View, Text, PermissionsAndroid} from 'react-native';
+
 
 const App: () => React$Node = () => {
+
+
+  const ref = firestore().collection('locations');
+
+
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState('');
   const [error, setError] = useState('');
+  const [text, setText] = useState('');
   const [position, setPosition] = useState({latitude: 0, longitude: 0});
 
   const registerUser = async (username, password) => {
@@ -19,6 +27,7 @@ const App: () => React$Node = () => {
     }
   };
 
+
   const loginUser = async (username, password) => {
     try {
       await auth().signInWithEmailAndPassword(username, password);
@@ -26,6 +35,13 @@ const App: () => React$Node = () => {
       console.error(e.message);
     }
   };
+  
+  const saveLocation = async () =>  {
+    await ref.add({
+      title: "test",
+      complete: false,
+    });
+  }
 
   const onAuthStateChanged = user => {
     setUser(user);
@@ -74,10 +90,17 @@ const App: () => React$Node = () => {
   }
 
   return (
-    <View>
+    <View style={{
+      flexDirection: 'row',
+      height: 100,
+      padding: 20,
+    }}>
       <Text>
         Hello {position.latitude} {position.longitude}
       </Text>
+      <View>
+      <Button onPress={() => storeLocation} title={"Save location"}/>
+      </View>
     </View>
   );
 };
