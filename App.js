@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
+import messaging from '@react-native-firebase/messaging';
 import Geolocation from 'react-native-geolocation-service';
 import LoginView from './views/LoginView';
 import {View, Text, PermissionsAndroid} from 'react-native';
@@ -32,6 +33,12 @@ const App: () => React$Node = () => {
   };
 
   useEffect(() => {
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background!', remoteMessage);
+    });
+  }, []);
+
+  useEffect(() => {
     const granted = PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     );
@@ -45,6 +52,7 @@ const App: () => React$Node = () => {
           });
         },
         e => setError(e.message),
+        {enableHighAccuracy: true, distanceFilter: 1, interval: 10000},
       );
       return () => Geolocation.clearWatch(watchId);
     }
@@ -67,7 +75,9 @@ const App: () => React$Node = () => {
 
   return (
     <View>
-      <Text>Hello {position.latitude}</Text>
+      <Text>
+        Hello {position.latitude} {position.longitude}
+      </Text>
     </View>
   );
 };
