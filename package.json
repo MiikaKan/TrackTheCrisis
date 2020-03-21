@@ -13,6 +13,7 @@
     "@react-native-firebase/app": "^6.3.4",
     "@react-native-firebase/auth": "^6.3.4",
     "@react-native-firebase/firestore": "^6.3.4",
+    "@react-native-firebase/functions": "^6.3.4",
     "@react-native-firebase/messaging": "^6.3.4",
     "axios": "^0.19.2",
     "react": "16.9.0",

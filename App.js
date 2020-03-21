@@ -4,6 +4,8 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import Geolocation from 'react-native-geolocation-service';
+import '@react-native-firebase/functions';
+import firebase from '@react-native-firebase/app';
 import LoginView from './views/LoginView';
 import PlacesView from './views/PlacesView';
 import {View, Text, PermissionsAndroid, Button} from 'react-native';
@@ -26,13 +28,13 @@ const App: () => React$Node = () => {
     });
   };
 
-  const fetchNearbyPlaces = pos => {
+  const fetchNearbyPlaces = async pos => {
     const base = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
     axios
       .get(
         `${base}?location=${pos.coords.latitude},${pos.coords.longitude}&radius=100&key=${API_KEY}`,
       )
-      .then(response => {
+      .then(async response => {
         const results = response.data.results;
 
         const filteredByTypes = filterPlacesByTypes(results);
@@ -47,6 +49,20 @@ const App: () => React$Node = () => {
         });
 
         setPlaces(filteredWithRelevantFields);
+
+        /* Calling cloud function
+        test();
+        const r = await axios.post(
+          `https://us-central1-gameanalysis.cloudfunctions.net/helloWorld`,
+          {
+            uid: user.uid,
+            latitude: pos.coords.latitude,
+            longitude: pos.coords.longitude,
+          },
+        );
+
+        console.error(r);
+        */
       })
       .catch(err => {
         console.error(err);

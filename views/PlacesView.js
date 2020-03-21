@@ -1,6 +1,15 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
 import PlaceRowView from './PlaceRowView';
+
+const styles = StyleSheet.create({
+  container: {
+    margin: 30,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+  },
+});
 
 export default function PlacesView(props) {
   const {places} = props;
@@ -11,7 +20,7 @@ export default function PlacesView(props) {
     });
   };
   return (
-    <View>
+    <View style={styles.container}>
       <Text>Places nearby you:</Text>
       {getPlaceRows()}
     </View>
