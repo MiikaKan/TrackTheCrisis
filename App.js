@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import Geolocation from 'react-native-geolocation-service';
 import LoginView from './views/LoginView';
-import {View, Text, PermissionsAndroid} from 'react-native';
+import {View, Text, PermissionsAndroid, Button} from 'react-native';
 import {PLACES_API_KEY} from 'react-native-dotenv';
 
 const API_KEY = PLACES_API_KEY;
@@ -77,6 +78,15 @@ const App: () => React$Node = () => {
     if (initializing) setInitializing(false);
   };
 
+  const test = async () => {
+    const documentSnapshot = await firestore()
+      .collection('locations')
+      .doc(user.uid)
+      .get();
+
+    console.error(documentSnapshot.data());
+  };
+
   useEffect(() => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       console.log('Message handled in the background!', remoteMessage);
@@ -124,6 +134,7 @@ const App: () => React$Node = () => {
       <Text>
         Hello {position.latitude} {position.longitude}
       </Text>
+      <Button onPress={test} title="Get Data" />
     </View>
   );
 };
