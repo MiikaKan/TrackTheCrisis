@@ -5,6 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import Geolocation from 'react-native-geolocation-service';
 import LoginView from './views/LoginView';
+import PlacesView from './views/PlacesView';
 import {View, Text, PermissionsAndroid, Button} from 'react-native';
 import {PLACES_API_KEY} from 'react-native-dotenv';
 
@@ -15,19 +16,13 @@ const App: () => React$Node = () => {
   const [user, setUser] = useState('');
   const [error, setError] = useState('');
   const [position, setPosition] = useState({latitude: 0, longitude: 0});
+  const [places, setPlaces] = useState([]);
 
   const filterPlacesByTypes = places => {
     const typesToFilterOut = ['locality'];
 
     return places.filter(place => {
-      let count = 0;
-      place.types.forEach(type =>
-        typesToFilterOut.forEach(filterOutType => {
-          if (type == filterOutType) count++;
-        }),
-      );
-
-      return count < 1 ? place : false;
+      return place.types.length > 2;
     });
   };
 
@@ -41,16 +36,17 @@ const App: () => React$Node = () => {
         const results = response.data.results;
 
         const filteredByTypes = filterPlacesByTypes(results);
-        const filteredRelevantFields = filteredByTypes.map(item => {
+        const filteredWithRelevantFields = filteredByTypes.map(item => {
           return {
             name: item.name,
             types: item.types,
             id: item.id,
             icon: item.icon,
+            ratings: item.user_ratings_total,
           };
         });
 
-        console.error(filteredRelevantFields);
+        setPlaces(filteredWithRelevantFields);
       })
       .catch(err => {
         console.error(err);
@@ -134,6 +130,7 @@ const App: () => React$Node = () => {
       <Text>
         Hello {position.latitude} {position.longitude}
       </Text>
+      <PlacesView places={places} />
       <Button onPress={test} title="Get Data" />
     </View>
   );
