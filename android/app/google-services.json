@@ -1,0 +1,40 @@
+{
+    "project_info": {
+      "project_number": "738323041397",
+      "firebase_url": "https://gameanalysis.firebaseio.com",
+      "project_id": "gameanalysis",
+      "storage_bucket": "gameanalysis.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:738323041397:android:623a2fbb4af1cc14577c3c",
+          "android_client_info": {
+            "package_name": "com.trackthecrisis"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "738323041397-7msm3rivfokerjuatm0k25mdbcjjgmrf.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyBF0owG9WNoGD8SwIVzeuWL3FjpCQSOfbY"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "738323041397-7msm3rivfokerjuatm0k25mdbcjjgmrf.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
